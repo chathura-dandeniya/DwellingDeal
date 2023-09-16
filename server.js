@@ -60,7 +60,7 @@ app.use(mainRoutes);
 app.use(userRoutes);
 
 // Start the server
-app.listen(3000, (err) => {
+app.listen(80, (err) => {
     if (err) throw err;
     console.log("Server is Running on port 3000");
 });

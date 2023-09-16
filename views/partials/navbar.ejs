@@ -1,0 +1,64 @@
+<!--  
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+      <a class="navbar-brand" href="#">DwellingDeal</a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right">
+      <% if (!user) { %>
+
+      <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Signup / Login</a>
+        <ul class="dropdown-menu">
+          <li><a href="/views/accounts/signup.ejs">Signup</a></li> 
+          <li><a href="/views/accounts/login.ejs">Login</a></li>
+        </ul>
+      </li>
+
+     <% } else { %>
+
+      <li><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.profile.name %></a>
+        <ul class="dropdown-menu">
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </li>
+      <% } %>
+
+    </ul>
+  </div>
+</nav> 
+-->
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+      <a class="navbar-brand" href="#">DwellingDeal Payment Portal</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <% if (!user) { %>
+          <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Signup / Login</a>
+            <ul class="dropdown-menu">
+              <li><a href="/signup">Register</a></li>
+              <li><a href="/login">Login</a></li>
+            </ul>
+          </li>
+        <% } else { %>
+          <li><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.profile.name %></a>
+            <ul class="dropdown-menu">
+              <li><a href="/profile">Manage Payments</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
+        <% } %>
+      </ul>
+    </div> 
+  </div> 
+</nav>

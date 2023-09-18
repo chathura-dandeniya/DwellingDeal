@@ -13,6 +13,8 @@ app.get('/', (req, res)=>{
     res.sendFile('index.html'); //sends index.html on load at localhost:port 
 })
 
+
+
 app.listen(port, ()=>{
     console.log(`Server running on port http://localhost:${port}`);
     console.log("Press ctrl+c to shutdown");

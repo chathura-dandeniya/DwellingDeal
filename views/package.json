@@ -1,0 +1,29 @@
+{
+    "name": "creating-registration-and-login-form-in-nodejs-and-mongodb",
+    "version": "1.0.0",
+    "description": "This is a user login and registration app using Node.js, Express, Mongoose and express-sessions. ",
+    "main": "server.js",
+    "dependencies": {
+        "connect-mongo": "^7.0.1",
+        "dotenv": "^8.2.0",
+        "ejs": "^3.0.1",
+        "express": "^4.17.1",
+        "express-session": "^1.16.2",
+        "mongoose": "^1.10.6"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chathura-dandeniya/DwellingDeal"
+    },
+    "author": "GuruRoxz",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/chathura-dandeniya/DwellingDeal"
+    },
+    "homepage": "https://github.com/chathura-dandeniya/DwellingDeal#read.me"
+}

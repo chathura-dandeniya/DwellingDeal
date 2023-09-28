@@ -44,7 +44,7 @@ const addProduct = asyncHandler(async(req, res)=>{
 //@desc Get a product
 //@route Get /api/products/:id
 //@access public
-const getProduct = asyncHandler(async(res,req)=>{
+const getProduct = asyncHandler(async(req,res)=>{
     const product = await Product.findById(req.params.id);
     if(product === null) {
         res.status(404).json(product);
@@ -69,7 +69,7 @@ const updateProduct = asyncHandler(async(req,res)=>{
         req.body,
         { new: true }
     );
-
+    res.status(200).json(updatedProduct);
 });
 
 //@desc Delete a product

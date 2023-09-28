@@ -30,15 +30,15 @@ const productSchema = mongoose.Schema({
         type: String,
         required: [true, "Please add a location"]
     },
-    status: {
-        type: Enumerator,
-        required: [true, "Please set a status"]
-    },
-    listing_date: {
-        type: Date,
-        required: true,
-        timestamps: true
-    },
+    // status: {
+    //     type: Enumerator,
+    //     required: [true, "Please set a status"]
+    // },
+    // listing_date: {
+    //     type: Date,
+    //     required: true,
+    //     timestamps: true
+    // },
 
 });
 

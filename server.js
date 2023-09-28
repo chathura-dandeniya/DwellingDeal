@@ -54,11 +54,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
-// app.get('/', (req, res)=>{
-//     res.sendFile('index.html'); //sends index.html on load at localhost:port 
-// })
-
 // Configure view engine
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');

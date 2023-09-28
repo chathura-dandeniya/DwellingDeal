@@ -1,15 +1,16 @@
+const { timeStamp } = require('console');
 const mongoose =require('mongoose');
 
 const productSchema = mongoose.Schema({
-    product_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "User"
-    },
+    // product_id: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true
+    // },
+    // user_id: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: "User"
+    // },
     category: {
         type: String,
         required: [true, "Please add a category"],
@@ -30,15 +31,14 @@ const productSchema = mongoose.Schema({
         type: String,
         required: [true, "Please add a location"]
     },
-    // status: {
-    //     type: Enumerator,
-    //     required: [true, "Please set a status"]
-    // },
-    // listing_date: {
-    //     type: Date,
-    //     required: true,
-    //     timestamps: true
-    // },
+    status: {
+        type: String,
+        default: "Available"
+    },
+    listing_date: {
+        type: Date,
+        default: Date.now
+    }
 
 });
 

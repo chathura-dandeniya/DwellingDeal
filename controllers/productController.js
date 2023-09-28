@@ -6,40 +6,39 @@ const Product = require('../models/product');
 //@desc Get all products
 //@route GET /api/products/
 //@access public
-const getProducts = asyncHandler(async(res,req)=>{
+const getProducts = asyncHandler(async(req,res)=>{
     const products = await Product.find();
-    if(product === null) {
-        res.status(404).json(product);
+    if(products === null) {
+        res.status(404);
         console.log("Products not found")
     }
     //return product as json
-    res.status(200).json(product)
-})
+    res.status(200).json(products);
+});
 
 //@desc Add a product
 //@route POST /api/products/
 //@access public
 const addProduct = asyncHandler(async(req, res)=>{
-    const product = { category, title, description, price, location, status, listing_date} = req.body;
+    const { category, title, description, price, location} = req.body;
     if( !category || !title || !description || !price || !location) {
         res.status(400);
         throw new Error("All fields are mandatory");
     };
-    //attempt to find existing product based on product id
-    const productAvailable = await Product.findOne({title});
-    if(productAvailable){
-        res.status(400);
-        throw new Error("Product already listed");
-    };
-
-    console.log(`Product listing created; title ${product}`);
-    if(product) {
-        res.status(201).json({_id: product.id, title: product.title, })
-    }
-    else{
-        res.status(400);
-        throw new Error("Product data is not valid");
-    }
+    // //attempt to find existing product based on product id
+    // const productAvailable = await Product.findOne({product});
+    // if(productAvailable){
+    //     res.status(400);
+    //     throw new Error("Product already listed");
+    // };
+    const product = await Product.create({
+        category, 
+        title,
+        description,
+        price,
+        location
+    })
+    res.status(201).json(product);
 });
 
 //@desc Get a product
@@ -47,13 +46,13 @@ const addProduct = asyncHandler(async(req, res)=>{
 //@access public
 const getProduct = asyncHandler(async(res,req)=>{
     const product = await Product.findById(req.params.id);
-    if(product === nulll) {
+    if(product === null) {
         res.status(404).json(product);
-        console.log("Product not found")
+        throw new Error("Product not found")
     }
     //return product as json
     res.status(200).json(product)
-})
+});
 
 //@desc Update a product
 //@route PUT /api/products/:id
@@ -79,17 +78,17 @@ const updateProduct = asyncHandler(async(req,res)=>{
 const deleteProduct = asyncHandler(async (req, res) => {
 
     try{
+        console.log(req.params.id);
         const product = await Product.findById(req.params.id);
-    
     if(!product) {
         res.status(404);
         throw new Error("Product not found");
     }
-    await Product.deleteOne(contact);
+    await Product.deleteOne({ _id: req.params.id});
 
-    res.status(200).json({ message: `Delete product for ${req.params.id}` });
+    res.status(200).json({ message: `Deleted ${product}` });
     }catch(err){
-        console.log(err);
+        res.status(500);
     }
 });
 

@@ -55,27 +55,33 @@ const getProduct = asyncHandler(async(req,res)=>{
 });
 
 
-
+//@desc Search all products
+//@route get /api/products/:query
+//@access public
 const searchProducts = asyncHandler(async(req,res)=>{
-    Product.createIndexes({ title: "text", description: "text"})
-    const searchTerm = req.params.body;
-    const query = await {$text: { $search: searchTerm}};
-    const projection = {
-        _id: 0,
-        score: {$meta: "textScore"},
-    };
-    const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
+    try{
+        const searchTerm = req.params.searchTerm;
+        await Product.createIndexes({ title: "text"});
 
-    if (products.length === 0) {
-        res.status(404);
-        throw new Error("No matches found");
+        const query = await {$text: { $search: searchTerm}};
+        const projection = {
+            _id: 0,
+            score: {$meta: "textScore"},
+        };
+        const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
+
+        if (products.length === 0) {
+            res.status(404);
+            throw new Error("No matches found");
+        }else {
+            res.status(200).json(products);
+        }
+    }catch (err){
+        console.error(err);
+        res.status(500).json({ message: "Internal Server Error"});
     }
-    res.status(200).json(products);
-
 
 });
-
-
 
 //@desc Update a product
 //@route PUT /api/products/:id

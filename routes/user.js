@@ -75,11 +75,11 @@ router.get('/logout', function (req, res, next) {
 
 //............................................................
 
-router.get('/edit-profile', function (req, res, next) {
-  res.render('accounts/edit-profile', { message: req.flash('success') });
+router.get('/editProfile', function (req, res, next) {
+  res.render('accounts/editProfile', { message: req.flash('success') });
 });
 
-router.post('/edit-profile', async function (req, res, next) {
+router.post('/editProfile', async function (req, res, next) {
   try {
     const user = await User.findOne({ _id: req.user._id });
     if (req.body.name) user.profile.name = req.body.name;
@@ -88,7 +88,7 @@ router.post('/edit-profile', async function (req, res, next) {
     await user.save();
 
     req.flash('success', 'Successfully Edited your profile');
-    return res.redirect('/edit-profile');
+    return res.redirect('/editProfile');
   } catch (err) {
     next(err);
   }

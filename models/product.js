@@ -18,10 +18,12 @@ const productSchema = mongoose.Schema({
     title: {
         type: String,
         required: [true, "Please add a title"],
+        text: true,
     },
     description: {
         type: String,
-        required: [true, "Please add a description"]
+        required: [true, "Please add a description"],
+        text: true,
     },
     price: {
         type: Number,

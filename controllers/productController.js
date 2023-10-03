@@ -54,6 +54,29 @@ const getProduct = asyncHandler(async(req,res)=>{
     res.status(200).json(product)
 });
 
+
+
+const searchProducts = asyncHandler(async(req,res)=>{
+    Product.createIndexes({ title: "text", description: "text"})
+    const searchTerm = req.params.body;
+    const query = await {$text: { $search: searchTerm}};
+    const projection = {
+        _id: 0,
+        score: {$meta: "textScore"},
+    };
+    const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
+
+    if (products.length === 0) {
+        res.status(404);
+        throw new Error("No matches found");
+    }
+    res.status(200).json(products);
+
+
+});
+
+
+
 //@desc Update a product
 //@route PUT /api/products/:id
 //@access public
@@ -97,5 +120,6 @@ module.exports = {
     getProduct,
     addProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    searchProducts,
 };

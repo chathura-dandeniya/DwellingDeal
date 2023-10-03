@@ -17,6 +17,10 @@ router.route('/:query').get(searchProducts);
 //tell router to use getProduct, updateProduct and deleteProduct with route "/:id"
 router.route('/:id').get(getProduct).put(updateProduct).delete(deleteProduct);
 
+router.get('/paymentLogin', function (req, res) {
+    res.render('accounts/paymentLogin');
+  });
+
 
 //export routes
 module.exports = router;

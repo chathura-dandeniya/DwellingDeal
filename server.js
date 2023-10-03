@@ -61,12 +61,16 @@ app.set('view engine', 'ejs');
 // Import routes
 const mainRoutes = require('./routes/main');
 const userRoutes = require('./routes/user');
+const paymentRoutes = require('./routes/paymentRoutes');
 // const productRoutes = require('./routes/productRoutes');
 
 // Register routes
 app.use(mainRoutes);
 app.use(userRoutes);
+app.use(paymentRoutes);
 app.use('/api/products', require('./routes/productRoutes'));
+
+
 
 
 

@@ -22,12 +22,12 @@
     <!-- START - Top menu upper division -->
     <nav class="navbar bg-primary" data-bs-theme="dark">
         <div class="container pe-0">
-            <a class="navbar-brand me-auto" href="#">DwellingDeal</a>
+            <a class="navbar-brand me-auto" href="/">DwellingDeal</a>
             <!-- <a class="navbar-brand" href="#"><i class="fa fa-phone"></i> 011 111 2342</a> -->
 
-            <a href="#" class="nav-link text-white me-4">Sign In</a>
-            <a href="#" class="btn btn-outline-light me-2">Sign Up</a>
-            <a href="#" class="btn btn-outline-light"><i class="fa fa-shopping-cart me-2"></i> Shopping Cart</a>
+            <a href="/login" class="nav-link text-white me-4">Sign In</a>
+            <a href="/register" class="btn btn-outline-light me-2">Sign Up</a>
+            <a href="/cart" class="btn btn-outline-light"><i class="fa fa-shopping-cart me-2"></i> Shopping Cart</a>
         </div>
     </nav>
     <!-- END - Top menu upper division -->
@@ -45,7 +45,7 @@
                     <div class="col-md-8 p-0">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link" href="/">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">About</a>
@@ -75,39 +75,62 @@
     <!-- START - Products section -->
     <section class="mt-5">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img class="w-100" src="https://placehold.co/600x600" alt="Product">
-                </div>
-                <div class="col-md-6">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
                     <div class="card shadow-sm">
-                        <div class="card-header">
-                            <h4>Product Title</h4>
+                        <div class="card-header d-flex justify-content-between">
+                            <h4>Shopping Cart</h4>
+                            <h3 class="text-success mb-3">180.00 AUD</h3>
                         </div>
                         <div class="card-body">
-                            <h6 class="text-secondary mb-3">Category name</h6>
-                            <h3 class="text-success mb-3">100.00 AUD</h3>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col" class="text-end">Unit Price (AUD)</th>
+                                        <th scope="col" class="text-center">Qty</th>
+                                        <th scope="col" class="text-end">Amount (AUD)</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Sample product rows - START -->
+                                    <tr>
+                                        <td>Product Title A</td>
+                                        <td class="text-end">100.00</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-end">100.00</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Product Title B</td>
+                                        <td class="text-end">40.00</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-end">80.00</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <!-- Sample product rows - END -->
+                                </tbody>
+                                <tfoot style="border-top: 2px solid;">
+                                    <tr>
+                                        <td colspan="2" class="text-end fw-semibold pt-3">Sub Total</td>
+                                        <td colspan="2" class="text-end fw-semibold pt-3">180.00</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-end fw-semibold pt-3"></td>
+                                        <td colspan="2" class="text-end fw-semibold pt-3">
+                                            <a href="/paymentHome" class="btn btn-primary w-100">Checkout</a>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
 
-                            <label for="txtQty" class="form-label fw-semibold">QTY</label>
-                            <form class="row g-3 mb-5">
-                                <div class="col-md-6">
-                                    <input value="1" type="number" class="form-control fw-semibold" id="txtQty">
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary fw-semibold w-100">Add to Cart</button>
-                                </div>
-                            </form>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quo illum velit libero enim
-                                vero aliquam, dolorem voluptas iusto nulla cumque magni corrupti, totam, culpa tempora
-                                quod modi laudantium debitis. Dicta, earum. Laboriosam maxime a est expedita officiis,
-                                quisquam asperiores quia sapiente quam atque? Eius aut dignissimos deserunt ex expedita
-                                nihil ab vitae magni dolorum quasi, accusamus distinctio exercitationem explicabo
-                                sapiente necessitatibus vel hic voluptates voluptatibus neque officia eligendi
-                                molestiae? Alias voluptas, eum praesentium maxime velit voluptatibus voluptates vitae
-                                modi ea, quas quam nemo necessitatibus veritatis nam totam doloremque reprehenderit
-                                officiis. Dolorem, perferendis pariatur quibusdam laborum repellat quae tenetur
-                                officiis!</p>
-
+                            </table>
                         </div>
                     </div>
                 </div>

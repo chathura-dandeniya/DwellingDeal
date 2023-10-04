@@ -1,5 +1,6 @@
 const { timeStamp } = require('console');
 const mongoose =require('mongoose');
+let client = require('../server');
 
 const productSchema = mongoose.Schema({
     // product_id: {
@@ -43,5 +44,22 @@ const productSchema = mongoose.Schema({
     }
 
 });
+let collection = client.db().collection('Products')
 
-module.exports = mongoose.model("Product", productSchema)
+function postProduct(product, callback) {
+    collection.insertOne(product, callback);
+}
+function getAllProducts(callback) {
+    collection.find({}).toArray(callback);
+}
+
+module.exports = {
+    Product: mongoose.model("Product", productSchema),
+    postProduct,
+    getAllProducts
+  };
+  
+
+// module.exports = mongoose.model("Product", productSchema)
+
+// module.exports = { postProduct, getAllProducts};

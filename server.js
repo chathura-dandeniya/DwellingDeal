@@ -11,6 +11,8 @@ const flash = require('express-flash');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 var path = require('path');
+const {MongoClient, ServerApiVersion } = require('mongodb');
+
 
 
 //configure global pathway
@@ -19,6 +21,7 @@ var path = require('path');
 const app = express();
 //MongoDB Connection string
 const uri = "mongodb+srv://s222489357-ecommerce:Abcde.1234@cluster0.ivsfcrm.mongodb.net/?retryWrites=true&w=majority";
+
 
 const port = process.env.PORT || 3000;
 app.use(express.static(__dirname + '/public')) //set home folder to serve files from

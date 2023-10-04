@@ -56,10 +56,10 @@
                         </ul>
                     </div>
                     <div class="col-md-4 p-0">
-                        <form class="d-flex" role="search">
+                        <form class="d-flex" role="search" id="searchForm" onsubmit="search()">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                                    aria-describedby="button-addon2">
+                                    aria-describedby="button-addon2" id="searchInput">
                                 <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
                                         class="fa fa-search"></i></button>
                             </div>
@@ -76,19 +76,23 @@
     <section class="mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="card shadow-sm">
-                        <img src="https://placehold.co/400" alt="Product">
-                        <div class="card-body text-center">
-                            <h5>Product Title</h5>
-                            <h4>A$ 100.00</h4>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-sm btn-outline-primary w-100"><i class="fa fa-cart-plus me-2"></i>
-                                Add to Cart</button>
+                <%productsList.forEach(product =>{ %>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm">
+                            <img src="https://placehold.co/400" alt="Product">
+                            <div class="card-body text-center">
+                                <h5><%= product.title %></h5>
+                                <h4><%= product.price %></h4>
+                                <p><%= product.description %></p>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-sm btn-outline-primary w-100"><i class="fa fa-cart-plus me-2"></i>
+                                    Add to Cart</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <%}) %>
+                
 
 
             </div>
@@ -100,8 +104,8 @@
                         <li class="page-item">
                             <a class="page-link" href="#">Previous</a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active" aria-current="page">
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item" aria-current="page">
                             <a class="page-link" href="#">2</a>
                         </li>
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
@@ -137,6 +141,8 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
     <script src="../../routes/main.js"></script>
+    <script src="../../controllers/productController.js"></script>
+    <script src="../../public/js/search.js"></script>
 
 </body>
 

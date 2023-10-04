@@ -1,5 +1,7 @@
 const { timeStamp } = require('console');
 const mongoose =require('mongoose');
+const { MongoClient } = require('mongodb');
+let client = require('../server');
 
 const productSchema = mongoose.Schema({
     // product_id: {
@@ -43,5 +45,11 @@ const productSchema = mongoose.Schema({
     }
 
 });
+
+
+// module.exports = {
+//     Product: mongoose.model("Product", productSchema),
+//   };
+  
 
 module.exports = mongoose.model("Product", productSchema)

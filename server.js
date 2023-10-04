@@ -21,13 +21,7 @@ const {MongoClient, ServerApiVersion } = require('mongodb');
 const app = express();
 //MongoDB Connection string
 const uri = "mongodb+srv://s222489357-ecommerce:Abcde.1234@cluster0.ivsfcrm.mongodb.net/?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, {
-//     serverApi: {
-//         version: ServerApiVersion.v1,
-//         strict: true,
-//         depreciationErrors: true,
-//     }
-// });
+
 
 const port = process.env.PORT || 3000;
 app.use(express.static(__dirname + '/public')) //set home folder to serve files from

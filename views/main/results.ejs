@@ -15,6 +15,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="../../controllers/productController.js"></script>
 </head>
 
 <body>
@@ -56,10 +57,10 @@
                         </ul>
                     </div>
                     <div class="col-md-4 p-0">
-                        <form class="d-flex" role="search" id="searchForm" onsubmit="search()">
+                        <form class="d-flex" role="search">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                                    aria-describedby="button-addon2" id="searchInput">
+                                    aria-describedby="button-addon2">
                                 <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
                                         class="fa fa-search"></i></button>
                             </div>
@@ -74,6 +75,7 @@
 
     <!-- START - Products section -->
     <section class="mt-5">
+        <h1> Search Results for: <%= product %></h1>
         <div class="container">
             <div class="row">
                 <%productsList.forEach(product =>{ %>
@@ -141,8 +143,6 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
     <script src="../../routes/main.js"></script>
-    <script src="../../controllers/productController.js"></script>
-    <script src="../../public/js/search.js"></script>
 
 </body>
 

@@ -2,7 +2,7 @@ var router = require('express').Router();
 
 
 const Product = require('../models/product');
-var getAllProducts = require('../controllers/productController');
+var productRoutes = require('../controllers/productController');
 
 router.get('/paymentHome', function (req, res) {
   res.render('main/paymentHome');
@@ -20,6 +20,22 @@ router.get('/', async (req,res) => {
   }
 
 });
+
+router.get('/searchResults', async (req, res) => {
+  try{
+    const params = new URLSearchParams(window.location.search);
+    const products = await productRoutes.getProducts({params});
+    res.render('main/results', {
+      productsList: products
+    });
+    if(!products){
+      res.status(404).send("No Products Found");
+    }
+  }catch (err){
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+})
 
 
 router.get('/about', function (req, res) {

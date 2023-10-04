@@ -42,7 +42,7 @@ const addProduct = asyncHandler(async(req, res)=>{
 });
 
 //@desc Get a product
-//@route Get /api/products/:id
+//@route Get /api/products/:term
 //@access public
 const getProduct = asyncHandler(async(req,res)=>{
     console.log(req.params.term);
@@ -55,21 +55,21 @@ const getProduct = asyncHandler(async(req,res)=>{
             };
             const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
         if(products.length > 0){
+            console.log("searching all products for match");
             res.status(200).json(products)
         }
         else{
-
+            console.log("searching by ID");
             let product = await Product.findById(x);
             if(!product) {
                 res.status(404).json(product);
-                throw new Error("Product not found")
             }
             //return product as json
             res.status(200).json(product)
         }
     }catch{
+        console.log("no products found");
         res.status(404);
-        throw new Error("Product not found")
     }
     
     
@@ -79,45 +79,45 @@ const getProduct = asyncHandler(async(req,res)=>{
 //@desc Search all products
 //@route get /api/products/:term
 //@access public
-const searchProducts = asyncHandler(async(req,res)=>{
-    console.log(req.params.term);
-    try{
-        const searchTerm = req.params.searchTerm;
-        console.log(searchTerm)
-        await Product.createIndexes({ title: "text"});
+// const searchProducts = asyncHandler(async(req,res)=>{
+//     console.log(req.params.term);
+//     try{
+//         const searchTerm = req.params.searchTerm;
+//         console.log(searchTerm)
+//         await Product.createIndexes({ title: "text"});
 
-        const query = await {$text: { $search: searchTerm}};
-        const projection = {
-            _id: 0,
-            score: {$meta: "textScore"},
-        };
-        const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
+//         const query = await {$text: { $search: searchTerm}};
+//         const projection = {
+//             _id: 0,
+//             score: {$meta: "textScore"},
+//         };
+//         const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
 
-        if (products.length === 0) {
-            res.status(404);
-            throw new Error("No matches found");
-        }else {
-            res.status(200).json(products);
-        }
-    }catch (err){
-        console.error(err);
-        res.status(500).json({ message: "Internal Server Error"});
-    }
+//         if (products.length === 0) {
+//             res.status(404);
+//             throw new Error("No matches found");
+//         }else {
+//             res.status(200).json(products);
+//         }
+//     }catch (err){
+//         console.error(err);
+//         res.status(500).json({ message: "Internal Server Error"});
+//     }
 
-});
+// });
 
 //@desc Update a product
 //@route PUT /api/products/:id
 //@access public
 const updateProduct = asyncHandler(async(req,res)=>{
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.term);
     if(!product) {
         res.status(404).json(product);
         throw new Error("Product not found")
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(
-        req.params.id,
+        req.params.term,
         req.body,
         { new: true }
     );
@@ -130,13 +130,13 @@ const updateProduct = asyncHandler(async(req,res)=>{
 const deleteProduct = asyncHandler(async (req, res) => {
 
     try{
-        console.log(req.params.id);
-        const product = await Product.findById(req.params.id);
+        console.log(req.params.term);
+        const product = await Product.findById(req.params.term);
     if(!product) {
         res.status(404);
         throw new Error("Product not found");
     }
-    await Product.deleteOne({ _id: req.params.id});
+    await Product.deleteOne({ _id: req.params.term});
 
     res.status(200).json({ message: `Deleted ${product}` });
     }catch(err){
@@ -150,5 +150,5 @@ module.exports = {
     addProduct,
     updateProduct,
     deleteProduct,
-    searchProducts,
+    // searchProducts,
 };

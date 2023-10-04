@@ -45,22 +45,45 @@ const addProduct = asyncHandler(async(req, res)=>{
 //@route Get /api/products/:id
 //@access public
 const getProduct = asyncHandler(async(req,res)=>{
-    const product = await Product.findById(req.params.id);
-    if(product === null) {
-        res.status(404).json(product);
+    console.log(req.params.term);
+    try{
+        let x = req.params.term;
+            const query = await {$text: { $search: x}};
+            const projection = {
+                _id: 0,
+                score: {$meta: "textScore"},
+            };
+            const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
+        if(products.length > 0){
+            res.status(200).json(products)
+        }
+        else{
+
+            let product = await Product.findById(x);
+            if(!product) {
+                res.status(404).json(product);
+                throw new Error("Product not found")
+            }
+            //return product as json
+            res.status(200).json(product)
+        }
+    }catch{
+        res.status(404);
         throw new Error("Product not found")
     }
-    //return product as json
-    res.status(200).json(product)
+    
+    
 });
 
 
 //@desc Search all products
-//@route get /api/products/:query
+//@route get /api/products/:term
 //@access public
 const searchProducts = asyncHandler(async(req,res)=>{
+    console.log(req.params.term);
     try{
         const searchTerm = req.params.searchTerm;
+        console.log(searchTerm)
         await Product.createIndexes({ title: "text"});
 
         const query = await {$text: { $search: searchTerm}};

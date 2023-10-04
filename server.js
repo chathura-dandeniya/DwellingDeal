@@ -14,7 +14,7 @@ var path = require('path');
 
 
 //configure global pathway
-global.appRoot = path.resolve(__dirname);
+// global.appRoot = path.resolve(__dirname);
 
 const app = express();
 //MongoDB Connection string

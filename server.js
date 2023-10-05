@@ -46,8 +46,10 @@ app.use(session({
     }),
     resave: true,
     saveUninitialized: true,
-    secret: "Abcde.1234"
+    secret: "Abcde.1234",
+    cookie : { secure: false }
 }));
+
 app.use(flash()); // Enable flash messages
 // Initialize Passport for authentication
 app.use(passport.initialize());

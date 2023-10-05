@@ -95,25 +95,19 @@
                                 </thead>
                                 <tbody>
                                     <!-- Sample product rows - START -->
+                                    <% products.forEach(product => {%>
                                     <tr>
-                                        <td>Product Title A</td>
-                                        <td class="text-end">100.00</td>
+                                        
+                                        <td><%= product.title %> </td>
+                                        <td class="text-end"><%= product.price %></td>
                                         <td class="text-center">1</td>
-                                        <td class="text-end">100.00</td>
+                                        <td class="text-end">100.000</td>
                                         <td class="text-end">
                                             <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>Product Title B</td>
-                                        <td class="text-end">40.00</td>
-                                        <td class="text-center">2</td>
-                                        <td class="text-end">80.00</td>
-                                        <td class="text-end">
-                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <!-- Sample product rows - END -->
+                                    <% }) %>
+                                    
                                 </tbody>
                                 <tfoot style="border-top: 2px solid;">
                                     <tr>

@@ -61,7 +61,7 @@ router.post('/register', [
             full_name: req.body.full_name,
             email: req.body.email,
             password: encpassword,
-            
+
         };
 
         var user = new User(document);
@@ -88,6 +88,5 @@ function findUserByEmail(email) {
         })
     }
 }
-
 
 module.exports = router;

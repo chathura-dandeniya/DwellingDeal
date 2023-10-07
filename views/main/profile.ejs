@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DwellingDeal</title>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="/css/custom.css">
+</head>
+
+<body>
+    <%- include('../partials/navbar') %>
+
+
+    <div class="container">
+
+        <div class="row my-5 mx-5">
+            <div class="col-sm-6 col-md-4">
+                <img class="img-circle img-responsive img-center" src="<%= user.profile.picture %>" alt="">
+
+                    <br />
+                    <p class="my-2">Name: <%= user.profile.name %></p>
+                    <p>Email: <%= user.email %></p>
+                    <p>Phone: <%= user.profile.phone %></p>
+
+
+                    <% if (user.address === "" || typeof user.address === 'undefined')  { %>
+        <p>Address: <span style="color: #c0392b; font-weight: bold">You have no address</span></p>
+
+      <% } else { %>
+
+      <p>Address: <%= user.address %></p>
+
+      <% } %>
+
+                    <a href="/editProfile" class="btn btn-primary btn-lg">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- START - Footer -->
+    <footer class="bg-primary p-4 mt-5">
+        <div class="container">
+            <div class="d-flex justify-content-center align-items-center text-white small">
+                Design & Developed By &nbsp;<a href="#" class="text-white">AAA</a>
+            </div>
+        </div>
+    </footer>
+    <!-- END - Footer -->
+
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="/js/search.js"></script>
+
+</body>
+
+</html>

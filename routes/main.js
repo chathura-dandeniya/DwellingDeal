@@ -1,37 +1,46 @@
 var router = require('express').Router();
 
-
 const Product = require('../models/product');
 var productRoutes = require('../controllers/productController');
 
-router.get('/paymentHome', function (req, res) {
-  res.render('main/paymentHome');
-});
+// router.get('/paymentHome', function (req, res) {
+//   res.render('main/paymentHome');
+// });
 
-router.get('/', async (req,res) => {
-  try{
-    const products = await Product.find({});
+router.get('/', async (req, res) => {
+  const page = req.query.page || 1;
+  const limit = 8;
+  try {
+    const products = await Product.find({})
+      .skip((page -1)* limit)
+      .limit(limit);
+    
+    const totalProducts = await Product.countDocuments();
+    const user = req.user;
+    
     res.render('main/index', {
-      productsList: products
+      productsList: products,
+      currentPage: page,
+      totalPages: Math.ceil(totalProducts/limit),
+      user: user
     });
-  }catch (err){
+  } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
   }
-
 });
 
 router.get('/searchResults', async (req, res) => {
-  try{
+  try {
     const params = new URLSearchParams(window.location.search);
-    const products = await productRoutes.getProducts({params});
+    const products = await productRoutes.getProducts({ params });
     res.render('main/results', {
       productsList: products
     });
-    if(!products){
+    if (!products) {
       res.status(404).send("No Products Found");
     }
-  }catch (err){
+  } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
   }
@@ -42,30 +51,37 @@ router.get('/about', function (req, res) {
   res.render('main/about');
 });
 
-router.get('/login', function(req, res){
+router.get('/login', function (req, res) {
   res.render('main/login');
 })
 
-router.get('/register', function(req,res){
+router.get('/register', function (req, res) {
   res.render('main/register');
 })
 
-router.get('/cart', function(req,res){
+router.get('/cart', function (req, res) {
   res.render('main/cart');
 })
 
-router.get('/checkout', function(req,res){
+router.get('/checkout', function (req, res) {
   res.render('main/checkout');
 })
 
-router.get('/register', function(req,res){
+router.get('/register', function (req, res) {
   res.render('main/register');
 })
 
-router.get('/productDetail', function(req,res){
-  res.render('main/productDetail');
+router.get('/cancel', function (req, res) {
+  res.render('main/cancel');
+})
+
+router.get('/success', function (req, res) {
+  res.render('main/success');
 })
 
 
+router.get('/productDetail', function (req, res) {
+  res.render('main/productDetail');
+})
 
 module.exports = router;

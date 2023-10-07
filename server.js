@@ -11,9 +11,7 @@ const flash = require('express-flash');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 var path = require('path');
-const {MongoClient, ServerApiVersion } = require('mongodb');
-
-
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 //configure global pathway
 // global.appRoot = path.resolve(__dirname);
@@ -75,10 +73,8 @@ app.use(userRoutes);
 // app.use(paymentRoutes);
 app.use('/api/products', require('./routes/productRoutes'));
 
-
 //start the server
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`Server running on port http://localhost:${port}`);
     console.log("Press ctrl+c to shutdown");
 })
-

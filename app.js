@@ -33,6 +33,8 @@ app2.use(express.json())
 app1.set('views', path1.join(__dirname, 'views'));
 app1.set('view engine', 'pug');
 
+app2.set('view engine', 'ejs'); // Newly added
+
 // Applying middleware to handle CORS, parse JSON, parse URL-encoded data, parse cookies, and serve static files
 app1.use(cors({ exposedHeaders: ['x-skip,x-limit,x-total'] }));
 app1.use(express.json({ limit: '5mb' }));
@@ -94,10 +96,25 @@ module.exports = new Promise(async (resolve, reject) => {
 
 //...............................................................
 const path2 = require('path');
+//..........................Critical Change................................
 
-app2.use(express.static(path2.join(__dirname, 'views', 'public')));
+app2.set('views', path2.join(__dirname, 'views'));
+app2.use(express.static(path2.join(__dirname, 'views', 'main')));
+//app2.use(express.static(path2.join(__dirname, 'views', 'public')));
+//app2.use(express.static(path2.join(__dirname, 'views', 'main')));
 
-app2.listen(3000, () => {
-    console.log(`App is running on http://localhost:${3000}`);
+app2.get('/cart', (req, res) => {
+    res.render('main/cart');
+});
+
+// app2.use((err, req, res, next) => {
+//     console.error(err.stack);
+//     res.status(500).send('Something broke!');
+// });
+
+//...............................................................................
+
+app2.listen(3002, () => {
+    console.log(`App is running on http://localhost:${3002}`);
 });
 //...............................................................

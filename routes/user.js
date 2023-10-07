@@ -42,7 +42,8 @@ router.post('/signup', async function (req, res, next) {
     user.email = req.body.email;
     user.password = req.body.password;
     user.profile.picture = user.gravatar();
-
+    
+    console.log(user);
     await user.save();
 
     req.logIn(user, function (err) {

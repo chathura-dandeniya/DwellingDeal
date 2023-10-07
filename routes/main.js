@@ -3,9 +3,9 @@ var router = require('express').Router();
 const Product = require('../models/product');
 var productRoutes = require('../controllers/productController');
 
-router.get('/paymentHome', function (req, res) {
-  res.render('main/paymentHome');
-});
+// router.get('/paymentHome', function (req, res) {
+//   res.render('main/paymentHome');
+// });
 
 router.get('/', async (req, res) => {
   try {
@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
     console.error(err);
     res.status(500).send("Internal Server Error");
   }
-
 });
 
 router.get('/searchResults', async (req, res) => {

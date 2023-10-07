@@ -9,13 +9,17 @@ const {
     addProduct,
     updateProduct,
     deleteProduct,
-    // searchProducts
+    addToCart,
+    removeFromCart
 } = require('../controllers/productController');
 
 //tell router to use getProducts and addProduct on the route "/"
 router.route('/').get(getProducts).post(addProduct);
+router.route('/cart').post(addToCart);
+router.route('/cart/remove_item').get(removeFromCart);
 //tell router to use getProduct, updateProduct and deleteProduct with route "/:id"
 router.route('/:term').get(getProduct).put(updateProduct).delete(deleteProduct);
+
 
 
 router.get('/paymentLogin', function (req, res) {

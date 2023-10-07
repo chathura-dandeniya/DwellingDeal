@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 
 //import product model
 const Product = require('../models/product');
+const product = require('../models/product');
 
 //@desc Get all products
 //@route GET /api/products/
@@ -75,36 +76,62 @@ const getProduct = asyncHandler(async(req,res)=>{
     
 });
 
+//@desc add a product to cart
+//@route PUT /api/products/cart
+//@access private
+const addToCart = asyncHandler(async (req, res) => {
+    const product_id = req.body.product_id;
+    const product_name = req.body.product_name;
+    const product_price = parseFloat(req.body.product_price); 
 
-//@desc Search all products
-//@route get /api/products/:term
-//@access public
-// const searchProducts = asyncHandler(async(req,res)=>{
-//     console.log(req.params.term);
-//     try{
-//         const searchTerm = req.params.searchTerm;
-//         console.log(searchTerm)
-//         await Product.createIndexes({ title: "text"});
+    let count = 0;
+    let cart = req.session.cart;
 
-//         const query = await {$text: { $search: searchTerm}};
-//         const projection = {
-//             _id: 0,
-//             score: {$meta: "textScore"},
-//         };
-//         const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].product_id === product_id) {
+            cart[i].quantity += 1;
+            count++;
+            break;
+        }
+    }
+    
+    if (count === 0) {
+        const cart_data = {
+            product_id: product_id,
+            product_name: product_name,
+            product_price: parseFloat(product_price),
+            quantity: 1
+        };
+        console.log(cart_data);
+        cart.push(cart_data);
+    }
 
-//         if (products.length === 0) {
-//             res.status(404);
-//             throw new Error("No matches found");
-//         }else {
-//             res.status(200).json(products);
-//         }
-//     }catch (err){
-//         console.error(err);
-//         res.status(500).json({ message: "Internal Server Error"});
-//     }
+    res.redirect('/');
+});
 
-// });
+
+//@desc remove a product from cart
+//@route PUT /api/products/cart/removeFromCart
+//@access private
+const removeFromCart = asyncHandler(async(req,res)=>{
+    console.log("Removing Item from cart")
+    const product_id = req.query.id;
+    let cart = req.session.cart;
+    try{
+        for(let i = 0; i <cart.length; i++){
+            if(cart[i].product_id === product_id){
+                cart.splice(i, 1);
+            }
+        }
+        res.redirect('/');
+    }
+    catch(err){
+        console.log(product_id);
+        throw new Error(err);
+    }
+});
+
+
 
 //@desc Update a product
 //@route PUT /api/products/:id
@@ -150,5 +177,6 @@ module.exports = {
     addProduct,
     updateProduct,
     deleteProduct,
-    // searchProducts,
+    addToCart,
+    removeFromCart
 };

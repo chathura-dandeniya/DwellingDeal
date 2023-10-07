@@ -11,18 +11,27 @@ router.get('/', async (req, res) => {
   const page = req.query.page || 1;
   const limit = 8;
   try {
+    //find all products in DB, then load them into page with number
     const products = await Product.find({})
+    //skip a page if the limit is exceeded
       .skip((page -1)* limit)
+      //define limit variable as the limit
       .limit(limit);
     
     const totalProducts = await Product.countDocuments();
     const user = req.user;
+    //check if a cart exists, if not create cart array
+    if(!req.session.cart)
+    {
+      req.session.cart = [];
+    }
     
     res.render('main/index', {
       productsList: products,
       currentPage: page,
       totalPages: Math.ceil(totalProducts/limit),
-      user: user
+      user: user,
+      cart: req.session.cart
     });
   } catch (err) {
     console.error(err);

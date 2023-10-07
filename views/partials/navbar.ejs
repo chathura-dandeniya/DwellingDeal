@@ -3,14 +3,13 @@
 <nav class="navbar bg-primary" data-bs-theme="dark">
   <div class="container pe-0">
       <a class="navbar-brand me-auto" href="/">DwellingDeal</a>
-      <!-- <a class="navbar-brand" href="#"><i class="fa fa-phone"></i> 011 111 2342</a> -->
       <% if(!user){ %>
       <a href="/login" class="nav-link text-white me-4">Sign In</a>
       <a href="/register" class="btn btn-outline-light me-2">Sign Up</a>
       <% } else { %>
       <a href="/profile" class="nav-link text-white me-4"><%= user.profile.name %></a>
       <a href="/logout" class="btn btn-outline-light me-2">Logout</a>
-      <a href="/cart" class="btn btn-outline-light"><i class="fa fa-shopping-cart me-2"></i> Shopping Cart</a>
+      <a href="#" class="btn btn-outline-light"><i class="fa fa-shopping-cart me-2" id="cartButton"></i> Shopping Cart</a>
       <% } %>
   </div>
 </nav>
@@ -38,7 +37,7 @@
                   </ul>
               </div>
               <div class="col-md-4 p-0">
-                  <form class="d-flex" role="search" id="searchForm" onsubmit="search()">
+                  <form class="d-flex" role="search" id="searchForm" onclick="search()">
                       <div class="input-group">
                           <input type="text" class="form-control" placeholder="Search" aria-label="Search"
                               aria-describedby="button-addon2" id="searchInput">

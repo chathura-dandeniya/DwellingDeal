@@ -5,26 +5,26 @@ var passportConf = require('../config/passport');
 
 router.get('/login', function (req, res) {
   if (req.user) return res.redirect('/');
-  res.render('accounts/login', { message: req.flash('loginMessage') });
+  res.render('main/login', { message: req.flash('loginMessage') });
 });
 
 router.post('/login', passport.authenticate('local-login', {
   successRedirect: '/profile',
-  failureRedirect: '/login',
+  failureRedirect: '/register',
   failureFlash: true
 }));
 
 router.get('/profile', async function (req, res, next) {
   try {
     const user = await User.findOne({ _id: req.user._id });
-    res.render('accounts/profile', { user: user });
+    res.render('main/profile', { user: user });
   } catch (err) {
     next(err);
   }
 });
 
 router.get('/signup', function (req, res, next) {
-  res.render('accounts/signup', {
+  res.render('main/register', {
     errors: req.flash('errors')
   });
 });
@@ -34,7 +34,7 @@ router.post('/signup', async function (req, res, next) {
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
       req.flash('errors', 'Account with that email address already exists');
-      return res.redirect('/signup');
+      return res.redirect('/register');
     }
 
     var user = new User();
@@ -48,7 +48,7 @@ router.post('/signup', async function (req, res, next) {
 
     req.logIn(user, function (err) {
       if (err) return next(err);
-      res.redirect('/profile');
+      res.redirect('/');
     });
 
   } catch (err) {
@@ -77,7 +77,7 @@ router.get('/logout', function (req, res, next) {
 //............................................................
 
 router.get('/editProfile', function (req, res, next) {
-  res.render('accounts/editProfile', { message: req.flash('success') });
+  res.render('main/editProfile', { message: req.flash('success') });
 });
 
 router.post('/editProfile', async function (req, res, next) {
@@ -89,7 +89,7 @@ router.post('/editProfile', async function (req, res, next) {
     await user.save();
 
     req.flash('success', 'Successfully Edited your profile');
-    return res.redirect('/editProfile');
+    return res.redirect('/profile');
   } catch (err) {
     next(err);
   }

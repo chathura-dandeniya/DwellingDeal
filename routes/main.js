@@ -10,8 +10,10 @@ var productRoutes = require('../controllers/productController');
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find({});
+    const user = req.user;
     res.render('main/index', {
-      productsList: products
+      productsList: products,
+      user: user
     });
   } catch (err) {
     console.error(err);

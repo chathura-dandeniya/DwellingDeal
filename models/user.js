@@ -13,6 +13,9 @@ var UserSchema = new Schema({
     name: { type: String, default: '' },
     picture: { type: String, default: '' }
   },
+  phone: {
+    type: String, number: true, default: ''
+  },
 
   address: String,
   history: [{

@@ -8,11 +8,20 @@ var productRoutes = require('../controllers/productController');
 // });
 
 router.get('/', async (req, res) => {
+  const page = req.query.page || 1;
+  const limit = 8;
   try {
-    const products = await Product.find({});
+    const products = await Product.find({})
+      .skip((page -1)* limit)
+      .limit(limit);
+    
+    const totalProducts = await Product.countDocuments();
     const user = req.user;
+    
     res.render('main/index', {
       productsList: products,
+      currentPage: page,
+      totalPages: Math.ceil(totalProducts/limit),
       user: user
     });
   } catch (err) {

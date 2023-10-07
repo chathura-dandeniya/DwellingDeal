@@ -123,7 +123,13 @@ const removeFromCart = asyncHandler(async(req,res)=>{
                 cart.splice(i, 1);
             }
         }
-        res.redirect('/');
+        const referer = req.header('Referer');
+        if(referer) {
+            res.redirect(referer);
+        }
+        else {
+            res.render('/')
+        }
     }
     catch(err){
         console.log(product_id);

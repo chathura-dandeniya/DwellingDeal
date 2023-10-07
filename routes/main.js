@@ -69,7 +69,10 @@ router.get('/register', function (req, res) {
 })
 
 router.get('/cart', function (req, res) {
-  res.render('main/cart');
+
+  res.render('main/cart',{
+    cart: req.session.cart
+  });
 })
 
 router.get('/checkout', function (req, res) {

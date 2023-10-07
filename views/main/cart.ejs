@@ -31,45 +31,6 @@
     <!-- START - Top menu upper division -->
     <%- include('../partials/navbar') %>
 
-    <!-- START - Top menu bottom division -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
-        <div class="container p-1">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="row m-0 w-100">
-                    <div class="col-md-8 p-0">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4 p-0">
-                        <form class="d-flex" role="search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                                    aria-describedby="button-addon2">
-                                <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
-                                        class="fa fa-search"></i></button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- END - Top menu bottom division -->
-    <!-- END - Top menu -->
 
     <!-- START - Products section -->
     <section class="mt-5">
@@ -79,7 +40,8 @@
                     <div class="card shadow-sm">
                         <div class="card-header d-flex justify-content-between">
                             <h4>Shopping Cart</h4>
-                            <h3 class="text-success mb-3">180.00 AUD</h3>
+
+                            <%    let total = 0; %>
                         </div>
                         <div class="card-body">
                             <table class="table table-hover">
@@ -94,24 +56,32 @@
                                 </thead>
                                 <tbody>
                                     <!-- Sample product rows - START -->
-                                    <% products.forEach(product => {%>
+
+                                    
+                                        <% if(cart.length > 0){ %>
+                                        <%  cart.forEach(item => { %>
+                                        <% total += parseFloat(item.quantity) * parseFloat(item.product_price) %>
                                     <tr>
-                                        
-                                        <td><%= product.title %> </td>
-                                        <td class="text-end"><%= product.price %></td>
-                                        <td class="text-center">1</td>
-                                        <td class="text-end">100.000</td>
+                                        <td><%= item.product_name%></td>
+                                        <td class="text-end"><%= item.product_price%></td>
+                                        <td class="text-center"><%= item.quantity%></td>
+                                        <td class="text-end"><%= total %></td>
                                         <td class="text-end">
-                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash" onclick="removeItem('<%= item.product_id %>')"></i></button>
                                         </td>
                                     </tr>
-                                    <% }) %>
+
+                                        <% }) %>
+                                        <% } else{ %>
+                                            <h3>No items in Cart</h3>
+                                        <% } %>
+                                    
                                     
                                 </tbody>
                                 <tfoot style="border-top: 2px solid;">
                                     <tr>
                                         <td colspan="2" class="text-end fw-semibold pt-3">Sub Total</td>
-                                        <td colspan="2" class="text-end fw-semibold pt-3">180.00</td>
+                                        <td colspan="2" class="text-end fw-semibold pt-3"><%= total %></td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -173,7 +143,7 @@
 
 
     <!-- JS -->
-
+<script src="/js/cartFunctions.js"></script>
 </body>
 
 </html>

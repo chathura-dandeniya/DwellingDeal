@@ -1,8 +1,12 @@
 const asyncHandler = require('express-async-handler');
+const multer = require('multer');
 
 //import product model
 const Product = require('../models/product');
 const product = require('../models/product');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 //@desc Get all products
 //@route GET /api/products/
@@ -21,25 +25,39 @@ const getProducts = asyncHandler(async(req,res)=>{
 //@route POST /api/products/
 //@access public
 const addProduct = asyncHandler(async(req, res)=>{
-    const { category, title, description, price, location} = req.body;
+    const {category, title, description, price, location} = req.body;
     if( !category || !title || !description || !price || !location) {
         res.status(400);
         throw new Error("All fields are mandatory");
     };
-    // //attempt to find existing product based on product id
-    // const productAvailable = await Product.findOne({product});
-    // if(productAvailable){
-    //     res.status(400);
-    //     throw new Error("Product already listed");
-    // };
-    const product = await Product.create({
-        category, 
-        title,
-        description,
-        price,
-        location
-    })
-    res.status(201).json(product);
+    //attempt to find existing product based on product id
+    const productAvailable = await Product.findOne({product});
+    if(productAvailable){
+        res.status(400);
+        throw new Error("Product already listed");
+    };
+    try{
+        const imageBuffer = req.file.buffer;
+
+        const product = await Product.create({
+            category, 
+            title,
+            description,
+            price,
+            location,
+            image: {
+                data: imageBuffer,
+                contentType: req.file.mimetype,
+            },
+        });
+        await product.save();
+        res.status(201).json(product);
+    }
+    catch(err){
+        console.error(err);
+        res.status(500).json({ error: 'Error adding product'});
+    }
+    
 });
 
 //@desc Get a product

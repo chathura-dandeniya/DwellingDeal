@@ -96,4 +96,11 @@ router.get('/productDetail', function (req, res) {
   res.render('main/productDetail');
 })
 
+router.get('/product', function (req, res){
+  const user = req.user;
+  res.render('main/product', {
+    user: user
+  });
+})
+
 module.exports = router;

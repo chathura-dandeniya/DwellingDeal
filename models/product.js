@@ -42,7 +42,11 @@ const productSchema = mongoose.Schema({
     listing_date: {
         type: Date,
         default: Date.now
-    }
+    },
+    // image: {
+    //     type: Buffer,
+    //     contentType: String,
+    // }
 
 });
 

@@ -12,6 +12,7 @@ const MongoStore = require('connect-mongo');
 const passport = require('passport');
 var path = require('path');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const multer = require('multer');
 
 //configure global pathway
 // global.appRoot = path.resolve(__dirname);

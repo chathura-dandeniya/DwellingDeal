@@ -37,14 +37,23 @@
                   </ul>
               </div>
               <div class="col-md-4 p-0">
-                  <form class="d-flex" role="search" id="searchForm" onclick="search()">
+                  <form class="d-flex" role="search" id="searchForm" action="api/products/:term" method="get" >
                       <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                              aria-describedby="button-addon2" id="searchInput">
-                          <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
+                          <input type="text" id="search" class="form-control" placeholder="Search" aria-label="Search"
+                              aria-describedby="button-addon2">
+                          <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i
                                   class="fa fa-search"></i></button>
                       </div>
                   </form>
+                  <div class="results-container">
+                    <ul class="results-list" id="list">
+             
+                    </ul>
+                 </div>
+                  <!-- <div class="search-wrapper">
+                    <label for="search">Search</label>
+                    <input type="search" id="search" data-search>
+                  </div> -->
               </div>
           </div>
       </div>

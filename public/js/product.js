@@ -29,20 +29,17 @@ document.addEventListener('DOMContentLoaded', function() {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(productData),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.statusCode === 201) {
-            alert('Product added successfully.');
-            // Clearn the form fields
-            addProductForm.reset();
-          } else {
-            alert('Error adding the product.');
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          alert('An error occurred while adding the product.');
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.statusCode === 201) {
+          alert('Product added successfully.');
+          // Clearn the form fields
+          addProductForm.reset();
+        } else {
+          alert('Error adding the product.');
+        }
+      })
+        
     });
   
     //update

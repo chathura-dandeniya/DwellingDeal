@@ -3,7 +3,7 @@ const multer = require('multer');
 
 //import product model
 const Product = require('../models/product');
-const product = require('../models/product');
+// const product = require('../models/product');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -31,14 +31,14 @@ const addProduct = asyncHandler(async(req, res)=>{
         throw new Error("All fields are mandatory");
     };
     //attempt to find existing product based on product id
-    const productAvailable = await Product.findOne({product});
+    const productAvailable = await Product.findOne({ title });
     if(productAvailable){
         res.status(400);
         console.log(productAvailable);
         throw new Error("Product already listed");
     };
     try{
-        const imageBuffer = req.file.buffer;
+        // const imageBuffer = req.file.buffer;
 
         const product = await Product.create({
             category, 
@@ -46,10 +46,10 @@ const addProduct = asyncHandler(async(req, res)=>{
             description,
             price,
             location,
-            image: {
-                data: imageBuffer,
-                contentType: req.file.mimetype,
-            },
+            // image: {
+            //     data: imageBuffer,
+            //     contentType: req.file.mimetype,
+            // },
         });
         await product.save();
         res.status(201).json(product);
@@ -200,7 +200,6 @@ const updateProduct = asyncHandler(async(req,res)=>{
 //@route DELETE /api/products/:id
 //@access public
 const deleteProduct = asyncHandler(async (req, res) => {
-    console.log(req.body);
     try{
         console.log(req.params.term);
         const product = await Product.findById(req.params.term);

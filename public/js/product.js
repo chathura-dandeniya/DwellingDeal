@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const productPrice = document.getElementById('price').value;
       const productCategory = document.getElementById('category').value;
       const productLocation = document.getElementById('location').value;
-      const productImage = document.getElementById('image').files[0];
+      // const productImage = document.getElementById('image').files[0];
 
       const productData = {
         title: productName,
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         price: productPrice,
         category: productCategory,
         location: productLocation,
-        image: productImage,
+        // image: productImage,
       };
 
       fetch('/', {
@@ -31,15 +31,13 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .then((response) => response.json())
       .then((data) => {
-        if (data.statusCode === 201) {
-          alert('Product added successfully.');
-          // Clearn the form fields
-          addProductForm.reset();
-        } else {
-          alert('Error adding the product.');
-        }
+          if (data.statusCode === 201) {
+            alert('Product added successfully.');
+            // Clear the form fields
+            addProductForm.reset();
+          }
+        })
       })
-        
     });
   
     //update
@@ -118,4 +116,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
   
-  });

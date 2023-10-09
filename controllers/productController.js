@@ -51,7 +51,7 @@ const addProduct = asyncHandler(async(req, res)=>{
             //     contentType: req.file.mimetype,
             // },
         });
-        await product.save();
+        // await product.save();
         res.status(201).json(product);
     }
     catch(err){

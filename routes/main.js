@@ -39,55 +39,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-
-router.post('/:term', async (req, res) => {
-  const page = req.query.page || 1;
-  const limit = 8;
-  console.log(req.body);
-  try {
-    const data = req.body;
-
-      const product = data;
-      console.log(product); 
-
-      const totalProducts = await Product.countDocuments();
-      const user = req.user;
-
-      if (!req.session.cart) {
-        req.session.cart = [];
-      }
-      res.render('main/results', {
-        productsList: product,
-        currentPage: page,
-        totalPages: Math.ceil(totalProducts / limit),
-        user: user,
-        cart: req.session.cart,
-      });
-    }
-    catch (err) {
-    console.error(err);
-    res.status(500).send(err);
-  }
-});
-
-// router.get('/', async (req, res) => {
-//   try {
-//     const params = new URLSearchParams(window.location.search);
-//     const products = await productRoutes.getProducts({ params });
-//     res.render('main/results', {
-//       productsList: products
-//     });
-//     if (!products) {
-//       res.status(404).send("No Products Found");
-//     }
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// })
-
-
 router.get('/about', function (req, res) {
   res.render('main/about');
 });
@@ -105,6 +56,10 @@ router.get('/cart', function (req, res) {
   res.render('main/cart',{
     cart: req.session.cart
   });
+})
+
+router.get('/product', function (req, res){
+  res.render('main/product');
 })
 
 router.get('/checkout', function (req, res) {

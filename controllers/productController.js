@@ -63,35 +63,55 @@ const addProduct = asyncHandler(async(req, res)=>{
 //@desc Get a product
 //@route Get /api/products/:term
 //@access public
-const getProduct = asyncHandler(async(req,res)=>{
+const getProduct = asyncHandler(async (req, res) => {
     console.log(req.params.term);
-    try{
+    const page = req.query.page || 1;
+    const limit = 8;
+
+    try {
         let x = req.params.term;
-            const query = await {$text: { $search: x}};
-            const projection = {
-                _id: 0,
-                score: {$meta: "textScore"},
-            };
-            const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
-        if(products.length > 0){
-            console.log("searching all products for match");
-            res.status(200).json(products)
+        const query = { $text: { $search: x } };
+        const projection = {
+            _id: 0,
+            score: { $meta: "textScore" },
+        };
+
+        // Count all matching documents for pagination
+        const totalProducts = await Product.countDocuments(query);
+
+        // Find and paginate the products
+        const products = await Product.find(query, projection)
+            .sort({ score: { $meta: "textScore" } })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        const user = req.user;
+        if (!req.session.cart) {
+            req.session.cart = [];
         }
-        else{
+
+        if (products.length > 0) {
+            console.log("searching all products for match");
+            res.render('main/results', {
+                productsList: products,
+                currentPage: page,
+                totalPages: Math.ceil(totalProducts / limit),
+                user: user,
+                cart: req.session.cart,
+            });
+        } else {
             console.log("searching by ID");
             let product = await Product.findById(x);
-            if(!product) {
+            if (!product) {
                 res.status(404).json(product);
+            } else {
+                res.status(200).json(product);
             }
-            //return product as json
-            res.status(200).json(product)
         }
-    }catch{
-        console.log("no products found");
-        res.status(404);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Internal Server Error");
     }
-    
-    
 });
 
 //@desc add a product to cart

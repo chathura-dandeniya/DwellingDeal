@@ -1,5 +1,5 @@
 var router = require('express').Router();
-
+const fetch = require('node-fetch'); // Import the 'node-fetch' library
 const Product = require('../models/product');
 var productRoutes = require('../controllers/productController');
 
@@ -39,23 +39,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/searchResults', async (req, res) => {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const products = await productRoutes.getProducts({ params });
-    res.render('main/results', {
-      productsList: products
-    });
-    if (!products) {
-      res.status(404).send("No Products Found");
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-})
-
-
 router.get('/about', function (req, res) {
   res.render('main/about');
 });
@@ -73,6 +56,10 @@ router.get('/cart', function (req, res) {
   res.render('main/cart',{
     cart: req.session.cart
   });
+})
+
+router.get('/product', function (req, res){
+  res.render('main/product');
 })
 
 router.get('/checkout', function (req, res) {

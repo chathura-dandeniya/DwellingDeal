@@ -23,6 +23,7 @@
   "dependencies": {
     "@godaddy/terminus": "^4.12.1",
     "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.20.2",
     "bunyan": "^1.8.15",
     "connect-mongo": "^5.0.0",
     "cookie-parser": "^1.4.6",

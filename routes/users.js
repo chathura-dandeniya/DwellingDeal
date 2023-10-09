@@ -7,9 +7,9 @@ const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-    res.render('index', { title: 'Nodejs user registration' });
-})
+// router.get('/', function (req, res, next) {
+//     res.render('index', { title: 'Nodejs user registration' });
+// })
 
 /* POST user registration page. */
 router.post('/register', [

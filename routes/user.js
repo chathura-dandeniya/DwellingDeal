@@ -41,6 +41,8 @@ router.post('/signup', async function (req, res, next) {
     user.profile.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
+    user.phone = req.body.phone;
+    user.address= req.body.address;
     user.profile.picture = user.gravatar();
     
     console.log(user);

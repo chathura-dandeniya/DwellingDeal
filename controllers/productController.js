@@ -34,6 +34,7 @@ const addProduct = asyncHandler(async(req, res)=>{
     const productAvailable = await Product.findOne({product});
     if(productAvailable){
         res.status(400);
+        console.log(productAvailable);
         throw new Error("Product already listed");
     };
     try{
@@ -199,12 +200,13 @@ const updateProduct = asyncHandler(async(req,res)=>{
 //@route DELETE /api/products/:id
 //@access public
 const deleteProduct = asyncHandler(async (req, res) => {
-
+    console.log(req.body);
     try{
         console.log(req.params.term);
         const product = await Product.findById(req.params.term);
     if(!product) {
         res.status(404);
+        console.log(req.params.term);
         throw new Error("Product not found");
     }
     await Product.deleteOne({ _id: req.params.term});

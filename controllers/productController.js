@@ -1,9 +1,12 @@
 const asyncHandler = require('express-async-handler');
-const mongoose = require('mongoose')
+const multer = require('multer');
 
 //import product model
 const Product = require('../models/product');
-// const product = require('../models/product');
+const product = require('../models/product');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 //@desc Get all products
 //@route GET /api/products/
@@ -22,85 +25,89 @@ const getProducts = asyncHandler(async(req,res)=>{
 //@route POST /api/products/
 //@access public
 const addProduct = asyncHandler(async(req, res)=>{
-    const { category, title, description, price, location} = req.body;
+    const {category, title, description, price, location} = req.body;
     if( !category || !title || !description || !price || !location) {
         res.status(400);
         throw new Error("All fields are mandatory");
     };
-    // //attempt to find existing product based on product id
-    // const productAvailable = await Product.findOne({product});
-    // if(productAvailable){
-    //     res.status(400);
-    //     throw new Error("Product already listed");
-    // };
-    const product = await Product.create({
-        category, 
-        title,
-        description,
-        price,
-        location
-    })
-    res.status(201).json(product);
+    //attempt to find existing product based on product id
+    const productAvailable = await Product.findOne({product});
+    if(productAvailable){
+        res.status(400);
+        throw new Error("Product already listed");
+    };
+    try{
+        const imageBuffer = req.file.buffer;
+
+        const product = await Product.create({
+            category, 
+            title,
+            description,
+            price,
+            location,
+            image: {
+                data: imageBuffer,
+                contentType: req.file.mimetype,
+            },
+        });
+        await product.save();
+        res.status(201).json(product);
+    }
+    catch(err){
+        console.error(err);
+        res.status(500).json({ error: 'Error adding product'});
+    }
+    
 });
 
 //@desc Get a product
 //@route Get /api/products/:term
 //@access public
-const getProduct = asyncHandler(async (req, res) => {
+const getProduct = asyncHandler(async(req,res)=>{
     console.log(req.params.term);
-    try {
+    try{
         let x = req.params.term;
-
-        if (mongoose.Types.ObjectId.isValid(x)) {
-            let product = await Product.findById(x);
-            if (!product) {
-                res.status(404).json(product);
-            }
-
-            // res.render('/main/index', {
-            //     productsList: [], 
-            //     currentPage: page, 
-            //     totalPages: Math.ceil(totalProducts / limit), 
-            //     user: user,
-            //     cart: req.session.cart,
-            // });
-            res.json([product]);
-        } else {
-            const query = await { $text: { $search: x } };
+            const query = await {$text: { $search: x}};
             const projection = {
                 _id: 0,
-                score: { $meta: "textScore" },
+                score: {$meta: "textScore"},
             };
-            const products = await Product.find(query, projection).sort({ score: { $meta: "textScore" } });
-
-            if (products.length > 0) {
-                console.log(products);
-                res.status(200).json(products);
-            } else {
-                // Handle the case when no products match the search term
-                res.status(404).json({ message: "No products found for the search term." });
-            }
+            const products = await Product.find(query, projection).sort({ score: {$meta: "textScore"} });
+        if(products.length > 0){
+            console.log("searching all products for match");
+            res.status(201).json(products)
+            // .render('main/index', {
+            //     productsList: products,
+            //     currentPage: page,
+            //     totalPages: Math.ceil(totalProducts/limit),
+            //     user: user,
+            //     cart: req.session.cart
+            //   });
         }
-    } catch (err) {
-        console.log(err);
-        res.redirect('/');
+        else{
+            console.log("searching by ID");
+            let product = await Product.findById(x);
+            if(!product) {
+                res.status(404).json(product);
+            }
+            res.status(200).json(product)
+            // res.render('main/index', {
+            //     productsList: products,
+            //     currentPage: page,
+            //     totalPages: Math.ceil(totalProducts/limit),
+            //     user: user,
+            //     cart: req.session.cart
+            //   });
+        }
+    }catch(err) {
+
+        console.log("no products found" + err);
+        res.status(404);
+
     }
+    
+    
 });
-
-
-// const searchProducts = asyncHandler(async (req,res)=>{
-//     try{
-//         Product.find({$or:[{title:{'$regex':req.query.dsearch}},{description:{'$regex':req.query.dsearch}}]},(err,data)=>{
-//             if(err){
-//                 console.log(err);
-//             }else{
-//                 res.render('main/index', {data: data});
-//             }
-//         })
-//     }catch (error){
-//         console.log(error);
-//     }
-// })
 
 //@desc add a product to cart
 //@route PUT /api/products/cart
@@ -210,5 +217,5 @@ module.exports = {
     updateProduct,
     deleteProduct,
     addToCart,
-    removeFromCart,
+    removeFromCart
 };

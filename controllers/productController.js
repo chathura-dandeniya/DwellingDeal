@@ -68,51 +68,61 @@ const getProduct = asyncHandler(async (req, res) => {
     console.log(req.params.term);
     const page = req.query.page || 1;
     const limit = 8;
+    const term = req.params.term
+    if (term != null ) {
+        try {
+            const query = { $text: { $search: term } };
+            const projection = {
+                _id: 0,
+                score: { $meta: "textScore" },
+            };
 
-    try {
-        let x = req.params.term;
-        const query = { $text: { $search: x } };
-        const projection = {
-            _id: 0,
-            score: { $meta: "textScore" },
-        };
+            // Count all matching documents for pagination
+            const totalProducts = await Product.countDocuments(query);
 
-        // Count all matching documents for pagination
-        const totalProducts = await Product.countDocuments(query);
+            // Find and paginate the products
+            const products = await Product.find(query, projection)
+                .sort({ score: { $meta: "textScore" } })
+                .skip((page - 1) * limit)
+                .limit(limit);
 
-        // Find and paginate the products
-        const products = await Product.find(query, projection)
-            .sort({ score: { $meta: "textScore" } })
-            .skip((page - 1) * limit)
-            .limit(limit);
-
-        const user = req.user;
-        if (!req.session.cart) {
-            req.session.cart = [];
-        }
-
-        if (products.length > 0) {
-            console.log("searching all products for match");
-            res.render('main/results', {
-                productsList: products,
-                currentPage: page,
-                totalPages: Math.ceil(totalProducts / limit),
-                user: user,
-                cart: req.session.cart,
-            });
-        } else {
-            console.log("searching by ID");
-            let product = await Product.findById(x);
-            if (!product) {
-                res.status(404).json(product);
-            } else {
-                res.status(200).json(product);
+            const user = req.user;
+            if (!req.session.cart) {
+                req.session.cart = [];
             }
+            if(term === "favicon.ico"){
+                console.log("ignore this error");
+                res.status(404);
+            }
+            else if (products.length > 0) {
+                console.log("searching all products for match");
+                res.render('main/results', {
+                    productsList: products,
+                    currentPage: page,
+                    totalPages: Math.ceil(totalProducts / limit),
+                    user: user,
+                    cart: req.session.cart,
+                });
+            } else if(term){
+                console.log("searching by ID");
+                let product = await Product.findById(term);
+                if (!product) {
+                    res.status(404).json(product);
+                } else {
+                    res.status(200).json(product);
+                }
+            }
+        } catch (err) {
+            console.error("Error:", err);
+            res.status(500).send("Internal Server Error");
         }
-    } catch (err) {
-        console.error("Error:", err);
-        res.status(500).send("Internal Server Error");
     }
+    else{
+        res.status(400).send("Missing search term");
+        return;
+    }
+
+
 });
 
 //@desc add a product to cart
@@ -200,21 +210,22 @@ const updateProduct = asyncHandler(async(req,res)=>{
 //@route DELETE /api/products/:id
 //@access public
 const deleteProduct = asyncHandler(async (req, res) => {
-    try{
-        console.log(req.params.term);
-        const product = await Product.findById(req.params.term);
-    if(!product) {
-        res.status(404);
-        console.log(req.params.term);
-        throw new Error("Product not found");
-    }
-    await Product.deleteOne({ _id: req.params.term});
-
-    res.status(200).json({ message: `Deleted ${product}` });
-    }catch(err){
-        res.status(500);
-    }
-});
+        try{
+            console.log(req.params.term);
+    
+            const product = await Product.findById(req.params.term);
+        if(!product) {
+            res.status(404);
+            console.log(req.params.term);
+            throw new Error("Product not found");
+        }
+        await Product.deleteOne({ _id: req.params.term});
+    
+        res.status(200).json({ message: `Deleted ${product}` });
+        }catch(err){
+            res.status(500);
+        }
+    });
 
 module.exports = {
     getProducts,

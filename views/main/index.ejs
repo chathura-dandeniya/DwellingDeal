@@ -39,9 +39,12 @@
                         <div class="card product-cards shadow-sm product-card" >
                             <img src="https://placehold.co/400" alt="Product">
                             <div class="card-body text-center">
-                                <h5><%= product.title %></h5>
-                                <h4><%= product.price %></h4>
+                                <h4><%= product.title %></h5>
+                                <h5>$<%= product.price %></h4>
+                                <h6>Location: <%= product.location %></h6>
                                 <p><%= product.description %></p>
+
+                                <p>Product ID: <%= product._id %> </p>
                             </div>
                             <div class="card-footer">
                                 <form method="post" action='/cart'>

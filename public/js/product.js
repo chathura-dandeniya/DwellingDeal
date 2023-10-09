@@ -46,20 +46,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add the code for updating a product by name
     updateProductForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      const prevName = document.getElementById('prevName').value;
+      console.log("Update clicked");
+      const updateID = document.getElementById('updateID').value
       const newName = document.getElementById('newName').value;
       const newDescription = document.getElementById('newDescription').value;
       const newPrice = document.getElementById('newPrice').value;
   
       const productData = {
-        prevName: prevName,
-        newName: newName,
-        newDescription: newDescription,
-        newPrice: parseFloat(newPrice), // Convert to a number if needed
+        title: newName,
+        description: newDescription,
+        price: parseFloat(newPrice), // Convert to a number if needed
       };
   
       // Send a PUT request to the server to update the product
-      fetch(`/api/product/${prevName}`, {
+      fetch(`/api/products/${updateID}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -89,11 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add the code for deleting a product here
     deleteProductForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      const productname = document.getElementById('productname').value;
-      
+      const productid = document.getElementById('productid').value;
   
       // Send a DELETE request to the server
-      fetch(`/api/product/${productname}`, {
+      fetch(`/api/products/${productid}`, {
         method: 'DELETE',
         
       })
